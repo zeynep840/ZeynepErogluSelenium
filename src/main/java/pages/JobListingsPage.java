@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -18,11 +19,11 @@ public class JobListingsPage {
     private By seeAllQAJobsButton = By.xpath("//*[@href='https://useinsider.com/careers/open-positions/?department=qualityassurance']");
     private By locationFilter = By.xpath("//span[@id='select2-filter-by-location-container']");
     private By departmentFilter = By.xpath("//span[@id='select2-filter-by-department-container']");
-    private By locationDropdownOptions = By.xpath("//li[contains(@class, 'select2-results__option')]");
+    private By locationDropdownOptions = By.xpath("//*[@id='select2-filter-by-location-container']");
     private By departmentDropdownOptions = By.xpath("//li[contains(@class, 'select2-results__option')]");
     private By jobPositions = By.cssSelector(".position-title");
     private By jobDepartments = By.xpath("//*[@data-select2-id='select2-filter-by-department-result-zqpf-Quality Assurance']");
-    private By jobLocations = By.xpath("//*[@data-select2-id='select2-filter-by-location-result-q0ry-Istanbul, Turkey']");
+    private By jobLocations = By.xpath("//*[@id='select2-filter-by-location-result-exun-Istanbul, Turkey']");
     private By jobListingWrapper = By.xpath("//div[@class='position-list-item-wrapper bg-light']");
     private By viewRoleButton = By.xpath("//a[text()='View Role']");
 
@@ -44,12 +45,10 @@ public class JobListingsPage {
     public void filterJobs(String location, String department) {
         WebElement locationElement = wait.until(ExpectedConditions.presenceOfElementLocated(locationFilter));
         js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
-
-        js.executeScript("setTimeout(function(){ console.log('Bekleme tamamlandı'); }, 3000);");
         wait.until(ExpectedConditions.elementToBeClickable(locationElement)).click();
-        js.executeScript("setTimeout(function(){ console.log('Bekleme tamamlandı'); }, 3000);");
-
-        List<WebElement> locationOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locationDropdownOptions));
+      //  WebElement locationElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(jobLocations));
+       // locationElement1.click();
+        List<WebElement> locationOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentDropdownOptions));
         for (WebElement option : locationOptions) {
             if (option.getText().equalsIgnoreCase(location)) {
                 option.click();

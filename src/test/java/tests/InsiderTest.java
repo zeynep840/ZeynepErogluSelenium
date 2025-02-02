@@ -1,6 +1,7 @@
 package tests;
 
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.HomePage;
 import pages.CareersPage;
@@ -9,8 +10,6 @@ import utils.TestBase;
 
 import java.time.Duration;
 import java.util.Set;
-
-import static utils.Driver.quitDriver;
 
 public class InsiderTest extends TestBase {
     private HomePage homePage;
@@ -59,8 +58,13 @@ public class InsiderTest extends TestBase {
     }
 
     @AfterMethod
-    public void tearDown() {
-        quitDriver(); // Hata alırsa otomatik screenshot alınacak
+    public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            takeScreenshot(result.getName()); // Test başarısız olursa screenshot al
+        }
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
 

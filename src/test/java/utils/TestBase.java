@@ -33,8 +33,23 @@ public class TestBase {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            takeScreenshot(result.getName()); // Eğer test hata verirse screenshot al
+        }
         if (driver != null) {
             driver.quit();
+        }
+    }
+
+    public void takeScreenshot(String testName) {
+        try {
+            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File destFile = new File("screenshots/" + testName + "_" + timestamp + ".png");
+            FileUtils.copyFile(srcFile, destFile);
+            System.out.println("Screenshot saved: " + destFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Screenshot could not be taken: " + e.getMessage());
         }
     }
 }

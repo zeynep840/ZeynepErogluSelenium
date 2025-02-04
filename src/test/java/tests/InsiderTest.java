@@ -29,7 +29,7 @@ public class InsiderTest extends TestBase {
     }
 
     @Test
-    public void testInsiderWebsite() {
+    public void testInsiderWebsite() throws InterruptedException {
         homePage.openHomePage();
         Assert.assertTrue(homePage.isHomePageOpened(), "Insider homepage is not opened");
 
@@ -39,6 +39,7 @@ public class InsiderTest extends TestBase {
         jobListingsPage.openQAJobsPage();
         jobListingsPage.filterJobs("Istanbul, Turkey", "Quality Assurance");
         Assert.assertTrue(jobListingsPage.areJobsFilteredCorrectly(), "Jobs are not filtered correctly");
+        Assert.assertTrue(jobListingsPage.areJobsFilteredIsIlanlari(), "Listede yanlış iş ilanları var!");
 
         jobListingsPage.clickViewRole();
 
@@ -67,4 +68,3 @@ public class InsiderTest extends TestBase {
         }
     }
 }
-

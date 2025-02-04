@@ -38,16 +38,20 @@ public class JobListingsPage {
         driver.get("https://useinsider.com/careers/quality-assurance/");
         wait.until(ExpectedConditions.elementToBeClickable(acceptButton)).click();
         WebElement qaJobsButton = wait.until(ExpectedConditions.elementToBeClickable(seeAllQAJobsButton));
-     //   js.executeScript("arguments[0].scrollIntoView(true);", qaJobsButton);
+        //   js.executeScript("arguments[0].scrollIntoView(true);", qaJobsButton);
         wait.until(ExpectedConditions.elementToBeClickable(qaJobsButton)).click();
     }
 
-    public void filterJobs(String location, String department) {
+    public void filterJobs(String location, String department) throws InterruptedException {
+
         WebElement locationElement = wait.until(ExpectedConditions.presenceOfElementLocated(locationFilter));
         js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
+        Thread.sleep(20000);
+
+
         wait.until(ExpectedConditions.elementToBeClickable(locationElement)).click();
-      //  WebElement locationElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(jobLocations));
-       // locationElement1.click();
+        //  WebElement locationElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(jobLocations));
+        // locationElement1.click();
         List<WebElement> locationOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentDropdownOptions));
         for (WebElement option : locationOptions) {
             if (option.getText().equalsIgnoreCase(location)) {
@@ -82,6 +86,34 @@ public class JobListingsPage {
         }
         return true;
     }
+
+    public boolean areJobsFilteredIsIlanlari() {
+        List<WebElement> jobListings = driver.findElements(By.cssSelector(".position-list-item"));
+
+        if (jobListings.isEmpty()) {
+            System.out.println("İlan bulunamadı!");
+            return false;
+        }
+
+        int validJobCount = 0;
+
+        for (WebElement job : jobListings) {
+            String location = job.getAttribute("data-location");
+            String team = job.getAttribute("data-team");
+
+            if ("istanbul-turkey".equalsIgnoreCase(location) && "qualityassurance".equalsIgnoreCase(team)) {
+                validJobCount++;
+            } else {
+                System.out.println("Yanlış ilan bulundu! Location: " + location + ", Team: " + team);
+                return false; // Yanlış bir ilan varsa test başarısız olmalı
+            }
+        }
+
+        System.out.println("Doğru ilan sayısı: " + validJobCount);
+        return validJobCount == jobListings.size(); // Listedeki tüm ilanlar uygunsa true döndür
+    }
+
+
 
     public void clickViewRole() {
         WebElement jobWrapper = wait.until(ExpectedConditions.presenceOfElementLocated(jobListingWrapper));

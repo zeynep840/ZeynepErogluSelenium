@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -19,8 +18,7 @@ public class JobListingsPage {
     private By seeAllQAJobsButton = By.xpath("//*[@href='https://useinsider.com/careers/open-positions/?department=qualityassurance']");
     private By locationFilter = By.xpath("//span[@id='select2-filter-by-location-container']");
     private By departmentFilter = By.xpath("//span[@id='select2-filter-by-department-container']");
-    private By locationDropdownOptions = By.xpath("//*[@id='select2-filter-by-location-container']");
-    private By departmentDropdownOptions = By.xpath("//li[contains(@class, 'select2-results__option')]");
+    private By departmentlocationDropdownOptions = By.xpath("//li[contains(@class, 'select2-results__option')]");
     private By jobPositions = By.cssSelector(".position-title");
     private By jobDepartments = By.xpath("//*[@data-select2-id='select2-filter-by-department-result-zqpf-Quality Assurance']");
     private By jobLocations = By.xpath("//*[@id='select2-filter-by-location-result-exun-Istanbul, Turkey']");
@@ -47,30 +45,32 @@ public class JobListingsPage {
         js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
         Thread.sleep(20000); //Method olarak yazılabılır
         wait.until(ExpectedConditions.elementToBeClickable(locationElement)).click();
-        //  WebElement locationElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(jobLocations));
-        // locationElement1.click();
-        List<WebElement> locationOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentDropdownOptions));
-        for (WebElement option : locationOptions) {
-            if (option.getText().equalsIgnoreCase(location)) {
-                option.click();
-                break;
-            }
-           // if kaldır  düzenle
 
-        }
+
+        List<WebElement> locationOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentlocationDropdownOptions));
+        WebElement matchingOption = locationOptions.stream()
+                .filter(option -> option.getText().equalsIgnoreCase(location))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Lokasyon filtresinde '" + location + "' seçeneği bulunamadı!"));
+
+        matchingOption.click();
+
 
         WebElement departmentElement = wait.until(ExpectedConditions.presenceOfElementLocated(departmentFilter));
         js.executeScript("arguments[0].scrollIntoView(true);", departmentElement);
         wait.until(ExpectedConditions.elementToBeClickable(departmentElement)).click();
 
-        List<WebElement> departmentOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentDropdownOptions));
-        for (WebElement option : departmentOptions) {
-            if (option.getText().equalsIgnoreCase(department)) {
-                option.click();
-                break;
-                //if kaldır
-            }
-        }
+        List<WebElement> departmentOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(departmentlocationDropdownOptions));
+
+// İlk eşleşen öğeyi al, değilse hata fırlat
+        WebElement matchingOption1 = departmentOptions.stream()
+                .filter(option -> option.getText().equalsIgnoreCase(department))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Departman filtresinde '" + department + "' seçeneği bulunamadı!"));
+
+// Direkt tıklama işlemi
+        matchingOption1.click();
+
     }
 
     public boolean areJobsFilteredCorrectly() {

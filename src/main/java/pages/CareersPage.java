@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +13,7 @@ import java.time.Duration;
 public class CareersPage {
     private WebDriver driver;
     private WebDriverWait wait;
+    private JavascriptExecutor js;
 
     @FindBy(xpath = "//h3[normalize-space()='Our Locations']")
     private WebElement locationsBlock;
@@ -25,13 +27,14 @@ public class CareersPage {
     public CareersPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.js = (JavascriptExecutor) driver;
+
         PageFactory.initElements(driver, this);
     }
 
     public boolean areCareerSectionsDisplayed() {
         try {
-            // bunları da ekle js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
-
+           js.executeScript("arguments[0].scrollIntoView(true);", locationsBlock);
             wait.until(ExpectedConditions.visibilityOf(locationsBlock));
             wait.until(ExpectedConditions.visibilityOf(teamsBlock));
             wait.until(ExpectedConditions.visibilityOf(lifeAtInsiderBlock));

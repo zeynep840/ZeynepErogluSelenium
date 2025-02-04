@@ -31,8 +31,8 @@ public class TestBase {
         driver = new SafariDriver();
 
     }
-        else {
-            System.setProperty("webdriver.chrome.driver", "/Users/zeyneperoglu/Desktop/chromedriver-mac-x64/chromedriver");
+        else if (browser.equalsIgnoreCase("chrome")) {
+            WebDriverManager.getInstance(ChromeDriver.class).setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-gpu", "--remote-allow-origins=*");
             driver = new ChromeDriver(options);

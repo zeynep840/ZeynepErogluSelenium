@@ -22,9 +22,14 @@ public class HomePage {
     @FindBy(xpath = "//a[@href='https://useinsider.com/careers/']")
     private WebElement careersLink;
 
+    @FindBy(xpath = "//a[@href='https://inone.useinsider.com/login']")
+    private WebElement login;
+
+
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         PageFactory.initElements(driver, this);
     }
 
@@ -35,8 +40,16 @@ public class HomePage {
     }
 
     public boolean isHomePageOpened() {
-        return driver.getTitle().contains("Insider");
-        // login butonu eklenecek //a[@href="https://inone.useinsider.com/login"]
+        try {
+            wait.until(ExpectedConditions.visibilityOf(login));
+
+            return driver.getTitle().contains("Insider") && login.isDisplayed();
+        }
+        catch (Exception e){
+            return false;
+        }
+
+
     }
 
     public void goToCareersPage() {

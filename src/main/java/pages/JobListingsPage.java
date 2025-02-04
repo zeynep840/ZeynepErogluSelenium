@@ -36,7 +36,6 @@ public class JobListingsPage {
 
     public void openQAJobsPage() {
         driver.get("https://useinsider.com/careers/quality-assurance/");
-        wait.until(ExpectedConditions.elementToBeClickable(acceptButton)).click();
         WebElement qaJobsButton = wait.until(ExpectedConditions.elementToBeClickable(seeAllQAJobsButton));
         //   js.executeScript("arguments[0].scrollIntoView(true);", qaJobsButton);
         wait.until(ExpectedConditions.elementToBeClickable(qaJobsButton)).click();

@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,8 @@ public class HomePage {
     private WebDriver driver;
     private WebDriverWait wait;
 
+    @FindBy(id = "wt-cli-accept-all-btn")
+    private WebElement acceptButton;
     @FindBy(xpath = "(//a[normalize-space()='Company'])[1]")
     private WebElement companyMenu;
 
@@ -27,6 +30,8 @@ public class HomePage {
 
     public void openHomePage() {
         driver.get("https://useinsider.com/");
+        wait.until(ExpectedConditions.elementToBeClickable(acceptButton)).click();
+
     }
 
     public boolean isHomePageOpened() {

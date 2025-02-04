@@ -36,6 +36,7 @@ public class HomePage {
 
     public boolean isHomePageOpened() {
         return driver.getTitle().contains("Insider");
+        // login butonu eklenecek //a[@href="https://inone.useinsider.com/login"]
     }
 
     public void goToCareersPage() {

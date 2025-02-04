@@ -45,9 +45,7 @@ public class JobListingsPage {
 
         WebElement locationElement = wait.until(ExpectedConditions.presenceOfElementLocated(locationFilter));
         js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
-        Thread.sleep(20000);
-
-
+        Thread.sleep(20000); //Method olarak yazılabılır
         wait.until(ExpectedConditions.elementToBeClickable(locationElement)).click();
         //  WebElement locationElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(jobLocations));
         // locationElement1.click();
@@ -57,6 +55,8 @@ public class JobListingsPage {
                 option.click();
                 break;
             }
+           // if kaldır  düzenle
+
         }
 
         WebElement departmentElement = wait.until(ExpectedConditions.presenceOfElementLocated(departmentFilter));
@@ -68,6 +68,7 @@ public class JobListingsPage {
             if (option.getText().equalsIgnoreCase(department)) {
                 option.click();
                 break;
+                //if kaldır
             }
         }
     }

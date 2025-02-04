@@ -53,6 +53,7 @@ public class InsiderTest extends TestBase {
         }
 
         Assert.assertTrue(driver.getCurrentUrl().contains("lever.co"), "Application page did not open");
+        //a[@class="postings-btn template-btn-submit shamrock"] bunun kontrolunu de ekle
 
         driver.close();
         driver.switchTo().window(originalWindow);

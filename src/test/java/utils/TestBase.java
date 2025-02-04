@@ -8,6 +8,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.OutputType;
 import org.apache.commons.io.FileUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -23,7 +24,14 @@ public class TestBase {
         if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
-        } else {
+        }
+
+    else if (browser.equalsIgnoreCase("safari")) {
+        WebDriverManager.getInstance(SafariDriver.class).setup();
+        driver = new SafariDriver();
+
+    }
+        else {
             System.setProperty("webdriver.chrome.driver", "/Users/zeyneperoglu/Desktop/chromedriver-mac-x64/chromedriver");
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-gpu", "--remote-allow-origins=*");

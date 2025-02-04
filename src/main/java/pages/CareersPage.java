@@ -30,6 +30,8 @@ public class CareersPage {
 
     public boolean areCareerSectionsDisplayed() {
         try {
+            // bunları da ekle js.executeScript("arguments[0].scrollIntoView(true);", locationElement);
+
             wait.until(ExpectedConditions.visibilityOf(locationsBlock));
             wait.until(ExpectedConditions.visibilityOf(teamsBlock));
             wait.until(ExpectedConditions.visibilityOf(lifeAtInsiderBlock));
